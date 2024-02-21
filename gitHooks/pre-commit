@@ -1,0 +1,16 @@
+#!/bin/bash
+
+INVALID_CHARACTERS=$(grep -P -n "[\x80-\xFF]" $(git diff --cached --name-only))
+
+if [ -n "$INVALID_CHARACTERS" ]; then
+    echo "Error: Se encontraron caracteres extraños en los siguientes archivos:"
+    echo "$INVALID_CHARACTERS"
+    exit 1
+fi
+
+ESLINT=$(eslint --ext .html --quiet .)
+
+if [ $? -ne 0 ]; then
+    echo "Error: Se encontraron errores de formato en los archivos HTML."
+    exit 1
+fi

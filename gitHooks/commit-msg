@@ -1,0 +1,11 @@
+#!/bin/bash
+
+COMMIT_MSG_FILE=$1
+
+MOTIVO_COMMIT=$(grep -E '^MOTIVO DEL COMMIT:' "$COMMIT_MSG_FILE")
+IMPLEMENTACION=$(grep -E '^IMPLEMENTACIÓN:' "$COMMIT_MSG_FILE")
+
+if [ -z "$MOTIVO_COMMIT" ] || [ -z "$IMPLEMENTACION" ]; then
+    echo "Error: El mensaje de commit debe contener un campo 'MOTIVO DEL COMMIT' y un campo 'IMPLEMENTACIÓN'."
+    exit 1
+fi
